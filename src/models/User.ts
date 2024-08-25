@@ -8,10 +8,19 @@ export class User {
   id: string;
 
   @Column()
+  fullname: string;
+
+  @Column()
+  email: string;
+
+  @Column()
   login: string;
 
   @Column()
   password: string;
+
+  @Column()
+  isActive: boolean;
 
   @OneToMany(() => Artist, artist => artist.user)
   artists: Artist[];

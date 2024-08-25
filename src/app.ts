@@ -1,9 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
+import userRoutes from './routes/userRoute'
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use('/api', userRoutes);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
