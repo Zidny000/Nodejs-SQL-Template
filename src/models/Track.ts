@@ -23,5 +23,5 @@ export class Track {
   album: Album;
 
   @Column()
-  duration: number; // in seconds
+  duration: number;
 }

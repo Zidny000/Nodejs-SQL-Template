@@ -5,7 +5,7 @@ import { AccessLog } from './AccessLog';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string;  // Non-null assertion operator
+  id: string;
 
   @Column()
   login: string;

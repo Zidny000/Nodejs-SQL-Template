@@ -6,5 +6,5 @@ export class Favorite {
   id: string;
 
   @Column()
-  entityId: string; // can refer to either Album, Track or Artist
+  entityId: string;
 }
