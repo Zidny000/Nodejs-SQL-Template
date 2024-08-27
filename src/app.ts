@@ -1,10 +1,13 @@
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import userRoutes from './routes/userRoute'
+import { validateUserId } from './middlewares/validateUserId';
 
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use(validateUserId);
 
 app.use('/api', userRoutes);
 
