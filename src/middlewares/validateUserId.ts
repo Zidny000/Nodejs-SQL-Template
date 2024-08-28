@@ -3,7 +3,7 @@ import { validate } from 'uuid';
 
 export function validateUserId(req: Request, res: Response, next: NextFunction) {
 
-  if (req.path === '/user/register') {
+  if (req.path === '/api/user/register') {
     return next();
   }
 

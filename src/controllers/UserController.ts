@@ -3,61 +3,40 @@ import { validate } from 'uuid';
 import dataSource from '../config/dataSource'
 import { User } from '../models/User';
 import bcrypt from 'bcrypt';
+import { UserService } from '../services/UserService';
+import { errorLogger } from '../utils/logger';
 
 export class UserController {
-  static async register(req: Request, res: Response) {
-    const { fullname, email, login, password, isActive } = req.body;
+  private userService: UserService;
 
-    if (!fullname || !email || !login || !password || isActive === undefined) {
+  constructor() {
+    this.userService = new UserService();
+  }
+
+  async register(req: Request, res: Response) {
+    const { fullname, email, login, password } = req.body;
+
+    if (!fullname || !email || !login || !password) {
       return res.status(400).json({ message: 'Fullname, email, login, password, and isActive are required' });
     }
 
     try {
-      
-      const hashedPassword = await bcrypt.hash(password, 10);
-      
-      const user = new User();
-      user.fullname = fullname; 
-      user.email = email;
-      user.login = login;
-      user.password = hashedPassword;
-      user.isActive = isActive;
-      
-      const userRepository = dataSource.getRepository(User);
-      const savedUser = await userRepository.save(user);
-      return res.status(201).json(savedUser);
+      const newUser = await this.userService.registerUser(fullname, email, login, password);
+      return res.status(201).json(newUser);
     } catch (error) {
-      return res.status(500).json({ message: 'Internal Server Error', error });
+      errorLogger.error('Error registering user:', { error, reqBody: req.body });
+      return res.status(500).json({ message: 'Internal Server Error' });
     }
   }
 
-  static async getUsers(req: Request, res: Response) {
+  async getUsers(req: Request, res: Response) {
     const { fullname, email, page = 1, limit = 10 } = req.query;
 
-    const userRepository = dataSource.getRepository(User);
-
     try {
-      const queryBuilder = userRepository.createQueryBuilder('user');
-
-      queryBuilder.where('user.isActive = :isActive', { isActive: true });
-
-      if (fullname) {
-        queryBuilder.andWhere('user.fullname LIKE :fullname', { fullname: `%${fullname}%` });
-      }
-
-      if (email) {
-        queryBuilder.andWhere('user.email LIKE :email', { email: `%${email}%` });
-      }
-
-      queryBuilder.skip((Number(page) - 1) * Number(limit));
-      queryBuilder.take(Number(limit));
-
-      const [users, total] = await queryBuilder.getManyAndCount();
-
+      const { users, total } = await this.userService.getUsers(fullname as string, email as string, Number(page), Number(limit));
       if (users.length === 0) {
         return res.status(404).json({ message: 'No users found' });
       }
-
       return res.status(200).json({
         total,
         page: Number(page),
@@ -65,32 +44,26 @@ export class UserController {
         users,
       });
     } catch (error) {
+      errorLogger.error('Error getting users:', { error, reqQuery: req.query });
       return res.status(500).json({ message: 'Internal Server Error' });
     }
   }
 
-  static async getUserById(req: Request, res: Response) {
+  async getUserById(req: Request, res: Response) {
     const { id } = req.params;
 
     if (!validate(id)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
 
-    const userRepository = dataSource.getRepository(User);
-
     try {
-
-      const user = await userRepository.findOne({
-        where: { id, isActive: true },
-        select: ['id', 'fullname', 'email', 'isActive'],
-      });
-
+      const user = await this.userService.getUserById(id);
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-
       return res.status(200).json(user);
     } catch (error) {
+      errorLogger.error('Error getting user by ID:', { error, userId: id });
       return res.status(500).json({ message: 'Internal Server Error' });
     }
   }
