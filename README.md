@@ -22,15 +22,6 @@ This is a RESTful API built using Node.js and TypeScript.
    ```bash
    npm install
 
-### Create a .env file in the root directory with the following content:
-
-- PORT=4000
-- DB_HOST=
-- DB_PORT=
-- DB_USER=
-- DB_PASSWORD=
-- DB_NAME=
-
 ### Running the Application
 - Start the application in development mode:
    ```bash
