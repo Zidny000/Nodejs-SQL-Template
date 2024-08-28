@@ -1,2 +1,11 @@
 {"error":"Some Error","level":"error","message":"Error registering user:","reqBody":{"email":"john1@example.com","fullname":"John Doe1","isActive":true,"login":"johndoe","password":"password123"},"timestamp":"2024-08-28T10:08:11.259Z"}
 {"error":"Some Error","level":"error","message":"Error registering user:","reqBody":{"email":"john1@example.com","fullname":"John Doe1","isActive":true,"login":"johndoe","password":"password123"},"timestamp":"2024-08-28T10:10:03.170Z"}
+{"error":{},"level":"error","message":"Error updating password:","timestamp":"2024-08-28T11:25:40.332Z","userId":"16b84cb0-63e3-486d-aa73-4c5e71d7941b"}
+{"error":{},"level":"error","message":"Error updating password:","timestamp":"2024-08-28T11:26:22.140Z","userId":"16b84cb0-63e3-486d-aa73-4c5e71d7941b"}
+{"error":{},"level":"error","message":"Error updating password:","timestamp":"2024-08-28T11:27:28.107Z","userId":"16b84cb0-63e3-486d-aa73-4c5e71d7941b"}
+{"error":{},"level":"error","message":"Error updating password:","timestamp":"2024-08-28T11:29:02.834Z","userId":"16b84cb0-63e3-486d-aa73-4c5e71d7941b"}
+{"error":"Existing password is incorrect","level":"error","message":"Error updating password:","timestamp":"2024-08-28T11:29:34.835Z","userId":"16b84cb0-63e3-486d-aa73-4c5e71d7941b"}
+{"error":"Existing password is incorrect","level":"error","message":"Error updating password:","timestamp":"2024-08-28T11:37:51.407Z","userId":"16b84cb0-63e3-486d-aa73-4c5e71d7941b"}
+{"error":{},"level":"error","message":"Error updating password:","timestamp":"2024-08-28T11:38:51.694Z","userId":"16b84cb0-63e3-486d-aa73-4c5e71d79419"}
+{"error":"User not found","level":"error","message":"Error updating password:","timestamp":"2024-08-28T11:39:14.098Z","userId":"16b84cb0-63e3-486d-aa73-4c5e71d79419"}
+{"body":{"existingPassword":"password123","newPassword":"newpass123"},"error":"Existing password is incorrect","level":"error","message":"Error updating password:","timestamp":"2024-08-28T11:40:33.911Z","userId":"16b84cb0-63e3-486d-aa73-4c5e71d7941b"}

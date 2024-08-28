@@ -68,7 +68,7 @@ export class UserController {
     }
   }
 
-  static async changePassword(req: Request, res: Response) {
+  async changePassword(req: Request, res: Response) {
     const { id } = req.params;
     const { existingPassword, newPassword } = req.body;
 
@@ -76,56 +76,41 @@ export class UserController {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
 
-    const userRepository = dataSource.getRepository(User);
-
     try {
-      const user = await userRepository.findOne({
-        where: { id },
-        select: ['id', 'password'],
-      });
-
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-
-      const isPasswordValid = await bcrypt.compare(existingPassword, user.password);
-      if (!isPasswordValid) {
-        return res.status(403).json({ message: 'Existing password is incorrect' });
-      }
-
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-      user.password = hashedPassword;
-      await userRepository.save(user);
-
+      await this.userService.changePassword(id, existingPassword, newPassword);
       return res.status(200).json({ message: 'Password updated successfully' });
     } catch (error) {
-      return res.status(500).json({ message: 'Internal Server Error' });
+      if (error === 'User not found') {
+        errorLogger.error('Error updating password:', { error, userId: id });
+        return res.status(404).json({ message: 'User not found' });
+      } else if (error === 'Existing password is incorrect') {
+        errorLogger.error('Error updating password:', { error, userId: id });
+        return res.status(403).json({ message: 'Existing password is incorrect' });
+      } else {
+        errorLogger.error('Error updating password:', { error, userId: id });
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
     }
   }
 
-  static async deleteUser(req: Request, res: Response) {
+  async deleteUser(req: Request, res: Response) {
     const { id } = req.params;
 
     if (!validate(id)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
 
-    const userRepository = dataSource.getRepository(User);
-
     try {
-      const user = await userRepository.findOne({ where: { id } });
-
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-
-      user.isActive = false;
-      await userRepository.save(user);
-
+      await this.userService.deleteUser(id);
       return res.status(204).send();
     } catch (error) {
-      return res.status(500).json({ message: 'Internal Server Error' });
+      if (error === 'User not found') {
+        errorLogger.error('Error deleting user:', { error, userId: id });
+        return res.status(404).json({ message: 'User not found' });
+      } else {
+        errorLogger.error('Error deleting user:', { error, userId: id });
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
     }
   }
 }

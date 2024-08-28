@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import bcrypt from 'bcrypt';
 import { User } from '../models/User';
 
 export const UserRepository = (dataSource: DataSource) =>
@@ -28,6 +29,36 @@ dataSource.getRepository(User).extend({
       where: { id, isActive: true },
       select: ['id', 'fullname', 'email', 'isActive'],
     });
+  },
+
+  async changePassword(id: string, existingPassword: string, newPassword: string): Promise<void> {
+    const user = await this.findOne({ where: { id }, select: ['id', 'password'] });
+
+    if (!user) {
+      throw 'User not found';
+    }
+
+    const isPasswordValid = await bcrypt.compare(existingPassword, user.password);
+    console.log(isPasswordValid)
+    if (!isPasswordValid) {
+      throw 'Existing password is incorrect';
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+    await this.save(user);
+  },
+
+  async deleteUser(id: string): Promise<void> {
+    const user = await this.findOne({ where: { id } });
+
+    if (!user) {
+      throw 'User not found';
+    }
+
+    user.isActive = false;
+    await this.save(user);
   }
 });
 
