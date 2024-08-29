@@ -16,9 +16,19 @@ export class Album {
     @Column({ nullable: true })
       artistId: string | null;
 
-    @ManyToOne(() => Artist, artist => artist.albums)
+    @Column({ default: false })
+      hidden: boolean;
+
+    @ManyToOne(() => Artist, artist => artist.albums, { onDelete: 'SET NULL' })
       artist: Artist;
 
     @OneToMany(() => Track, track => track.album)
       tracks: Track[];
+
+    constructor(name: string, year: number, artistId: string | null = null) {
+      this.name = name;
+      this.year = year;
+      this.artistId = artistId;
+      this.hidden = false;
+    }
 }
