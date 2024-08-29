@@ -14,9 +14,10 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "indent": ["error", 2], // Add this rule to enforce 2 spaces
+    "indent": ["error", 2],
     "semi": ["error", "always"],
     "quotes": ["error", "single"],
+    "eol-last": ["error", "always"],
     "no-unused-vars": "warn"
   }
 }
