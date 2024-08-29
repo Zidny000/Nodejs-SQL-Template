@@ -6,20 +6,29 @@ import { Album } from './Album';
 @Entity()
 export class Artist {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
-  @Column()
-  name: string;
+    @Column()
+      name: string;
 
-  @Column({ nullable: true })
-  userId: string | null;
+    @Column({ nullable: true })
+      userId: string | null;
 
-  @ManyToOne(() => User, user => user.artists)
-  user: User;
+    @Column({ default: false })
+      hidden: boolean;
 
-  @OneToMany(() => Track, track => track.artist)
-  tracks: Track[];
+    @ManyToOne(() => User, user => user.artists)
+      user: User;
 
-  @OneToMany(() => Album, album => album.artist)
-  albums: Album[];
+    @OneToMany(() => Track, track => track.artist)
+      tracks: Track[];
+
+    @OneToMany(() => Album, album => album.artist)
+      albums: Album[];
+
+    constructor(name: string, userId: string | null = null) {
+      this.name = name;
+      this.userId = userId;
+      this.hidden = false;
+    }
 }

@@ -5,23 +5,23 @@ import { Album } from './Album';
 @Entity()
 export class Track {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
-  @Column()
-  name: string;
+    @Column()
+      name: string;
 
-  @Column({ nullable: true })
-  artistId: string | null;
+    @Column({ nullable: true })
+      artistId: string | null;
 
-  @ManyToOne(() => Artist, artist => artist.tracks)
-  artist: Artist;
+    @ManyToOne(() => Artist, artist => artist.tracks)
+      artist: Artist;
 
-  @Column({ nullable: true })
-  albumId: string | null;
+    @Column({ nullable: true })
+      albumId: string | null;
 
-  @ManyToOne(() => Album, album => album.tracks)
-  album: Album;
+    @ManyToOne(() => Album, album => album.tracks)
+      album: Album;
 
-  @Column()
-  duration: number;
+    @Column()
+      duration: number;
 }

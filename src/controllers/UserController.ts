@@ -1,8 +1,5 @@
 import { Request, Response } from 'express';
 import { validate } from 'uuid';
-import dataSource from '../config/dataSource'
-import { User } from '../models/User';
-import bcrypt from 'bcrypt';
 import { UserService } from '../services/UserService';
 import { errorLogger } from '../utils/logger';
 
