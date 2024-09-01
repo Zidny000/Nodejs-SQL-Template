@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { User } from '../models/User';
+import { Artist } from '../models/Artist';
 
 export const UserRepository = (dataSource: DataSource) =>
   dataSource.getRepository(User).extend({
@@ -59,6 +60,14 @@ export const UserRepository = (dataSource: DataSource) =>
 
       user.isActive = false;
       await this.save(user);
-    }
+
+      const artistRepository = dataSource.getRepository(Artist)
+      const artists = user.artists || [];
+      for (const artist of artists) {
+        artist.hidden = true;
+        await artistRepository.save(artist);
+      }
+    },
+
   });
 

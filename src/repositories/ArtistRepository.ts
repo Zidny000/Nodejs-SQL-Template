@@ -39,4 +39,8 @@ export const ArtistRepository = (dataSource: DataSource) =>
       }
       return null;
     },
+
+    async getByUserId(userId: string) {
+      return this.findOne({ where: { userId } });
+    },
   });

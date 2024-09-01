@@ -22,7 +22,7 @@ export class User {
     @Column()
       isActive: boolean;
 
-    @OneToMany(() => Artist, artist => artist.user)
+    @OneToMany(() => Artist, artist => artist.user, { onDelete: 'SET NULL' })
       artists: Artist[];
 
     @OneToMany(() => AccessLog, accessLog => accessLog.user)
