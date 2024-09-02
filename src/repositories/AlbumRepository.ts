@@ -47,8 +47,7 @@ export const AlbumRepository = (dataSource: DataSource) =>
       const album = await this.findOne({ where: { id } });
       if (album) {
         album.hidden = true;
-        return this.save(album);
+        this.save(album);
       }
-      return null;
     },
   });

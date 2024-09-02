@@ -22,7 +22,7 @@ export class ArtistService {
     return this.artistRepository.updateArtist(id, updateData);
   }
 
-  async hideArtist(id: string): Promise<Artist | null> {
-    return this.artistRepository.markAsHidden(id);
+  async hideArtist(id: string) {
+    this.artistRepository.markAsHidden(id);
   }
 }

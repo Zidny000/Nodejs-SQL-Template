@@ -39,7 +39,7 @@ export const UserRepository = (dataSource: DataSource) =>
       }
 
       const isPasswordValid = await bcrypt.compare(existingPassword, user.password);
-      console.log(isPasswordValid);
+
       if (!isPasswordValid) {
         throw 'Existing password is incorrect';
       }

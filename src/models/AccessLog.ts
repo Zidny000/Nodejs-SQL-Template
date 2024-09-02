@@ -17,26 +17,26 @@ export enum EntityType {
 @Entity()
 export class AccessLog {
   @PrimaryGeneratedColumn('uuid')
-    id: string;
+  id: string;
 
-    @Column()
-      userId: string;
+  @Column()
+  userId: string;
 
-    @ManyToOne(() => User, user => user.accessLogs)
-      user: User;
+  @ManyToOne(() => User, user => user.accessLogs)
+  user: User;
 
-    @Column()
-      accessDate: Date;
+  @Column()
+  accessDate: Date;
 
-    @Column({
-      type: 'enum', 
-      enum: ActionType,
-    })
-      action: ActionType;
+  @Column({
+    type: 'enum', 
+    enum: ActionType,
+  })
+    action: ActionType;
 
-    @Column({
-      type: 'enum',
-      enum: EntityType,
-    })
-      entity: EntityType;
+  @Column({
+    type: 'enum',
+    enum: EntityType,
+  })
+  entity: EntityType;
 }

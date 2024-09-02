@@ -102,11 +102,13 @@ export class ArtistController {
     }
 
     try {
-      const artist = await this.artistService.hideArtist(id);
+      const existingArtist = await this.artistService.getArtistById(id);
 
-      if (!artist) {
+      if (!existingArtist) {
         return res.status(404).json({ message: 'Artist not found' });
       }
+
+      await this.artistService.hideArtist(id);
 
       return res.status(204).send();
     } catch (error) {
