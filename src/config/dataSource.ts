@@ -5,9 +5,6 @@ import { AccessLog } from '../models/AccessLog';
 import { Track } from '../models/Track';
 import { Album } from '../models/Album';
 import { Favorite } from '../models/Favorite';
-import dotenv from 'dotenv';
-
-dotenv.config(); 
 
 const AppDataSource = new DataSource({
   type: 'mysql',
@@ -16,10 +13,9 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  synchronize: false,
+  synchronize: true,
   logging: false,
   entities: [User, Artist, AccessLog, Track, Album, Favorite],
-  migrations: [__dirname + '/migrations/*.ts'],
   subscribers: [],
 });
 
