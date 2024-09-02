@@ -29,10 +29,10 @@ export class AccessLog {
   accessDate: Date;
 
   @Column({
-    type: 'enum',
+    type: 'enum', 
     enum: ActionType,
   })
-  action: ActionType;
+    action: ActionType;
 
   @Column({
     type: 'enum',

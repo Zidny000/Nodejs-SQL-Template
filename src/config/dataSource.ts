@@ -6,8 +6,11 @@ import { Track } from '../models/Track';
 import { Album } from '../models/Album';
 import { Favorite } from '../models/Favorite';
 import dotenv from 'dotenv';
+import path from 'node:path';
 
 dotenv.config(); 
+
+console.log(path.join(__dirname, '../migrations/*.ts'))
 
 const AppDataSource = new DataSource({
   type: 'mysql',
@@ -19,7 +22,7 @@ const AppDataSource = new DataSource({
   synchronize: false,
   logging: false,
   entities: [User, Artist, AccessLog, Track, Album, Favorite],
-  migrations: [__dirname + '/migrations/*.ts'],
+  migrations: [path.join(__dirname, '../migrations/*.ts')],
   subscribers: [],
 });
 

@@ -4,7 +4,7 @@ import { Album } from './Album';
 
 @Entity()
 export class Track {
-  @PrimaryGeneratedColumn('uuid')
+@PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
