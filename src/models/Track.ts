@@ -5,33 +5,33 @@ import { Album } from './Album';
 @Entity()
 export class Track {
   @PrimaryGeneratedColumn('uuid')
-    id: string;
+  id: string;
 
-    @Column()
-      name: string;
+  @Column()
+  name: string;
 
-    @Column({ default: false })
-      hidden: boolean;
+  @Column({ default: false })
+  hidden: boolean;
 
-    @Column({ nullable: true })
-      artistId: string | null;
+  @Column({ nullable: true })
+  artistId: string | null;
 
-    @ManyToOne(() => Artist, artist => artist.tracks, { onDelete: 'SET NULL' })
-      artist: Artist;
+  @ManyToOne(() => Artist, artist => artist.tracks, { onDelete: 'SET NULL' })
+  artist: Artist;
 
-    @Column({ nullable: true })
-      albumId: string | null;
+  @Column({ nullable: true })
+  albumId: string | null;
 
-    @ManyToOne(() => Album, album => album.tracks, { onDelete: 'SET NULL' })
-      album: Album;
+  @ManyToOne(() => Album, album => album.tracks, { onDelete: 'SET NULL' })
+  album: Album;
 
-    @Column()
-      duration: number;
+  @Column()
+  duration: number;
 
-      constructor(name: string, artistId: string | null = null, albumId: string | null = null) {
-        this.name = name;
-        this.artistId = artistId;
-        this.albumId = albumId;
-        this.hidden = false;
-      }
+  constructor(name: string, artistId: string | null = null, albumId: string | null = null) {
+    this.name = name;
+    this.artistId = artistId;
+    this.albumId = albumId;
+    this.hidden = false;
+  }
 }

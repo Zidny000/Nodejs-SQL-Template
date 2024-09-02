@@ -137,11 +137,14 @@ export class AlbumController {
     }
 
     try {
-      const album = await this.albumService.hideAlbum(id);
 
-      if (!album) {
+      const existingAlbum = await this.albumService.getAlbumById(id);
+
+      if (!existingAlbum) {
         return res.status(404).json({ message: 'Album not found' });
       }
+
+      await this.albumService.hideAlbum(id);
 
       return res.status(204).send();
     } catch (error) {

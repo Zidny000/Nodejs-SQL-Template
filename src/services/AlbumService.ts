@@ -26,7 +26,7 @@ export class AlbumService {
     return this.albumRepository.updateAlbum(id, updateData);
   }
 
-  async hideAlbum(id: string): Promise<Album | null> {
-    return this.albumRepository.markAsHidden(id);
+  async hideAlbum(id: string) {
+    this.albumRepository.markAsHidden(id);
   }
 }

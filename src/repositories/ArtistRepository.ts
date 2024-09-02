@@ -35,9 +35,8 @@ export const ArtistRepository = (dataSource: DataSource) =>
       const artist = await this.findOne({ where: { id } });
       if (artist) {
         artist.hidden = true;
-        return this.save(artist);
+        this.save(artist);
       }
-      return null;
     },
 
     async getByUserId(userId: string) {
