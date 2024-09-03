@@ -10,8 +10,6 @@ import path from 'node:path';
 
 dotenv.config(); 
 
-console.log(path.join(__dirname, '../migrations/*.ts'))
-
 const AppDataSource = new DataSource({
   type: 'mysql',
   host: process.env.DB_HOST,

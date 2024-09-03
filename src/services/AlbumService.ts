@@ -1,9 +1,14 @@
 import { AlbumRepository } from '../repositories/AlbumRepository';
+import { FavoriteRepository } from '../repositories/FavoriteRepository';
+import { FavoriteService } from './FavoriteService';
+import { EntityType } from '../models/Favorite';
 import dataSource from '../config/dataSource';
 import { Album } from '../models/Album';
 
 export class AlbumService {
   private albumRepository = AlbumRepository(dataSource);
+  private favoriteRepository = FavoriteRepository(dataSource);
+  private favoriteService: FavoriteService;
 
   async createAlbum(name: string, year: number, artistId?: string | null): Promise<Album> {
     const album = new Album(name, year, artistId ?? null);
@@ -26,7 +31,12 @@ export class AlbumService {
     return this.albumRepository.updateAlbum(id, updateData);
   }
 
-  async hideAlbum(id: string) {
+  async hideAlbum(userId: string, id: string) {
+    const existingFavorite = await this.favoriteRepository.findByUserIdAndEntity(userId, id, EntityType.ARTIST);
+    if (existingFavorite) {
+      await this.favoriteService.removeArtistFromFavorites(userId as string, id);
+    }
+
     this.albumRepository.markAsHidden(id);
   }
 }

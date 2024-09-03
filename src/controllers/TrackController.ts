@@ -156,13 +156,14 @@ export class TrackController {
 
   async hideTrack(req: Request, res: Response) {
     const { id } = req.params;
+    const { userId } = req.headers;
 
     if (!validate(id)) {
       return res.status(400).json({ message: 'Invalid track ID' });
     }
 
     try {
-      const track = await this.trackService.hideTrack(id);
+      const track = await this.trackService.hideTrack(userId as string, id);
 
       if (!track) {
         return res.status(404).json({ message: 'Track not found' });
