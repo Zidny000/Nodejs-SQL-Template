@@ -32,7 +32,7 @@ export class AccessLog {
     type: 'enum', 
     enum: ActionType,
   })
-  action: ActionType;
+    action: ActionType;
 
   @Column({
     type: 'enum',
