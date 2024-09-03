@@ -7,4 +7,7 @@ export class Favorite {
 
   @Column()
   entityId: string;
+
+  @Column()
+  userId: string;
 }

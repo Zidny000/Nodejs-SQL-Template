@@ -9,7 +9,11 @@
     "build": "tsc",
     "lint": "eslint 'src/**/*.ts'",
     "format": "prettier --write 'src/**/*.ts'",
-    "test": "jest"
+    "test": "jest",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js",
+    "migration:generate": "npm run typeorm -- migration:generate -d src/config/dataSource.ts",
+    "migration:run": "npm run typeorm -- migration:run -d src/config/dataSource.ts",
+    "migration:revert": "npm run typeorm -- migration:revert -d src/config/dataSource.ts"
   },
   "author": "Zidny Talukdar",
   "license": "ISC",
