@@ -28,7 +28,6 @@ export class ArtistService {
   }
 
   async hideArtist(userId: string, id: string) {
-    import { EntityType } from '../models/Favorite';
     this.artistRepository.markAsHidden(id);
   }
 }
