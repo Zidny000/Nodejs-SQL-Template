@@ -38,4 +38,8 @@ export const ArtistRepository = (dataSource: DataSource) =>
         this.save(artist);
       }
     },
+
+    async getByUserId(userId: string) {
+      return this.findOne({ where: { userId } });
+    },
   });

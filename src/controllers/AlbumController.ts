@@ -131,6 +131,7 @@ export class AlbumController {
 
   async deleteAlbum(req: Request, res: Response) {
     const { id } = req.params;
+    const { userId } = req.headers;
 
     if (!validate(id)) {
       return res.status(400).json({ message: 'Invalid album ID' });
@@ -144,7 +145,7 @@ export class AlbumController {
         return res.status(404).json({ message: 'Album not found' });
       }
 
-      await this.albumService.hideAlbum(id);
+      await this.albumService.hideAlbum(userId as string, id);
 
       return res.status(204).send();
     } catch (error) {

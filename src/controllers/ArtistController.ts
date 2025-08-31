@@ -96,6 +96,7 @@ export class ArtistController {
 
   async deleteArtist(req: Request, res: Response) {
     const { id } = req.params;
+    const { userId } = req.headers;
 
     if (!validate(id)) {
       return res.status(400).json({ message: 'Invalid artist ID' });
@@ -108,7 +109,7 @@ export class ArtistController {
         return res.status(404).json({ message: 'Artist not found' });
       }
 
-      await this.artistService.hideArtist(id);
+      await this.artistService.hideArtist(userId as string, id);
 
       return res.status(204).send();
     } catch (error) {

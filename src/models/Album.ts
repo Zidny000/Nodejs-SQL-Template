@@ -22,8 +22,8 @@ export class Album {
   @ManyToOne(() => Artist, artist => artist.albums, { onDelete: 'SET NULL' })
   artist: Artist;
 
-  @OneToMany(() => Track, track => track.album)
-  tracks: Track[];
+    @OneToMany(() => Track, track => track.album, { onDelete: 'SET NULL' })
+      tracks: Track[];
 
   constructor(name: string, year: number, artistId: string | null = null) {
     this.name = name;

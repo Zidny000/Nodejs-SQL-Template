@@ -20,8 +20,8 @@ export class Artist {
   @ManyToOne(() => User, user => user.artists, { onDelete: 'SET NULL' })
   user: User;
 
-  @OneToMany(() => Track, track => track.artist)
-  tracks: Track[];
+    @OneToMany(() => Track, track => track.artist, { onDelete: 'SET NULL' })
+      tracks: Track[];
 
   @OneToMany(() => Album, album => album.artist, { onDelete: 'SET NULL' })
   albums: Album[];
