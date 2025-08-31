@@ -1,6 +1,4 @@
-# LMS - Assessment Project for Itransition
-
-This is a RESTful API built using Node.js and TypeScript.
+# Node.js with SQL Database
 
 ## Getting Started
 
