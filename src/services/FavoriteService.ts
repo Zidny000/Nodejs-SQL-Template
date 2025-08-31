@@ -159,7 +159,7 @@ export class FavoriteService {
       throw 'Invalid UUID';
     }
 
-    const favorite = await this.favoriteRepository.findByUserIdAndEntity(userId, artistId, EntityType.ALBUM);
+    const favorite = await this.favoriteRepository.findByUserIdAndEntity(userId, artistId, EntityType.ARTIST);
     if (!favorite) {
       throw 'Favorite not found';
     }

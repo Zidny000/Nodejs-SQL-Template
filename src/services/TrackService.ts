@@ -57,10 +57,13 @@ export class TrackService {
   }
 
   async hideTrack(userId: string, id: string) {
-    const existingFavorite = await this.favoriteRepository.findByUserIdAndEntity(userId, id, EntityType.ARTIST);
+    // Handle favorites if they exist
+    const existingFavorite = await this.favoriteRepository.findByUserIdAndEntity(userId, id, EntityType.TRACK);
     if (existingFavorite) {
-      await this.favoriteService.removeArtistFromFavorites(userId as string, id);
+      await this.favoriteService.removeTrackFromFavorites(userId as string, id);
     }
+    
+    // Mark track as hidden - no need to update references since tracks don't have dependents
     return this.trackRepository.markAsHidden(id);
   }
 

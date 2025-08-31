@@ -32,11 +32,21 @@ export class AlbumService {
   }
 
   async hideAlbum(userId: string, id: string) {
-    const existingFavorite = await this.favoriteRepository.findByUserIdAndEntity(userId, id, EntityType.ARTIST);
+    // Handle favorites if they exist
+    const existingFavorite = await this.favoriteRepository.findByUserIdAndEntity(userId, id, EntityType.ALBUM);
     if (existingFavorite) {
-      await this.favoriteService.removeArtistFromFavorites(userId as string, id);
+      await this.favoriteService.removeAlbumFromFavorites(userId as string, id);
     }
 
-    this.albumRepository.markAsHidden(id);
+    // Mark album as hidden
+    await this.albumRepository.markAsHidden(id);
+    
+    // Set albumId to null in all related tracks
+    await dataSource
+      .createQueryBuilder()
+      .update('track')
+      .set({ albumId: null })
+      .where('albumId = :albumId', { albumId: id })
+      .execute();
   }
 }

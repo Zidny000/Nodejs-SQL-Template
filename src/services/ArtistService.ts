@@ -28,6 +28,29 @@ export class ArtistService {
   }
 
   async hideArtist(userId: string, id: string) {
-    this.artistRepository.markAsHidden(id);
+    // Handle favorites if they exist
+    const existingFavorite = await this.favoriteRepository.findByUserIdAndEntity(userId, id, EntityType.ARTIST);
+    if (existingFavorite) {
+      await this.favoriteService.removeArtistFromFavorites(userId as string, id);
+    }
+
+    // Mark artist as hidden
+    await this.artistRepository.markAsHidden(id);
+    
+    // Set artistId to null in all related albums
+    await dataSource
+      .createQueryBuilder()
+      .update('album')
+      .set({ artistId: null })
+      .where('artistId = :artistId', { artistId: id })
+      .execute();
+      
+    // Set artistId to null in all related tracks  
+    await dataSource
+      .createQueryBuilder()
+      .update('track')
+      .set({ artistId: null })
+      .where('artistId = :artistId', { artistId: id })
+      .execute();
   }
 }
